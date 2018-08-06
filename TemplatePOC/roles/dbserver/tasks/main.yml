@@ -1,0 +1,2 @@
+- name: create a directory
+  template: src=db.conf dest=/home/ubuntu/testing/

@@ -1,0 +1,13 @@
+- hosts: all
+  tasks:
+	- name: install tomcat
+	  package:
+		 name: tomcat8
+		 state: present
+	  become: yes
+  pre_tasks:
+	  - name: creating a directory
+	  - file:
+		path: ~/testdir
+		state: directory
+	   tags: directory

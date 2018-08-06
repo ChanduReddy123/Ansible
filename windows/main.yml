@@ -1,0 +1,20 @@
+- name: Downloading sample page from url
+  hosts: all
+  gather_facts: no
+  tasks:
+     - name: download and place it in documents
+       win_get_url:
+              url: https://www.microsoft.com
+              dest: C:\Users\Administrator\Documents\test.html
+
+
+
+     - name: Download Hotfixes
+       win_get_url:
+            url: "{{ item.url }}"
+            dest: "C:/{{item.kb}}.msu"
+            with_items:
+                - { kb: KB2919442, url: "https://download.microsoft.com/download/D/6/0/D60ED3E0-93A5-4505-8F6A-8D0A5DA16C8A/Windows8.1-KB2919442-x64.msu" }
+                - { kb: KB2919355, url: "https://download.microsoft.com/download/2/5/6/256CCCFB-5341-4A8D-A277-8A81B21A1E35/Windows8.1-KB2919355-x64.msu" }
+
+

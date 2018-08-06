@@ -1,0 +1,3 @@
+ansible_ssh_host: 35.180.32.95
+ansible_ssh_private_key_file: ~/Downloads/chandu.pem
+

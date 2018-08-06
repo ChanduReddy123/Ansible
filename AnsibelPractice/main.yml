@@ -1,0 +1,10 @@
+- hosts: dir
+  tasks:
+          - name: synchronizing module
+            synchronize:
+               src: /home/ubuntu/dir1
+               dest: /home/ubuntu/dir2
+            delegate_to: dir
+                    
+             
+            

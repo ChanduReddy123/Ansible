@@ -1,0 +1,19 @@
+ - hosts: all
+   strategy: free
+   become: yes
+   tasks:
+
+        - name: Ansible check backup2 file exists.
+          stat:
+               path: /home/ubuntu/Backup/bakup2.war
+          register: b2status
+        - debug:
+               msg: "status is {{b2status}} "
+        - name: installing tomcat8 
+          package:
+                name: tomcat8
+                state: present
+          register: tomcatstatus
+        - debug:
+               msg: "tomcat status {{tomcatstatus}}"
+ 

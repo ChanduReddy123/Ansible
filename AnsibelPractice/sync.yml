@@ -1,0 +1,8 @@
+- hosts: dir
+  tasks:
+        - name: copy f1 to home path
+          synchronize:
+               src: /home/ubuntu/dir1/
+               dest: /home/ubuntu/dir2
+          delegate_to: dir
+

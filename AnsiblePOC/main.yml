@@ -1,0 +1,62 @@
+ ---
+- hosts: localhost
+  strategy: free
+  become: yes
+  tasks:
+        - name: installing tomcat8 
+          package:
+                name: tomcat8
+                state: present
+          tags:
+               tomcat8_installation
+         
+        - name: creating the backup directory
+          file:
+               path: /home/ubuntu/Backup
+               state: directory
+          tags:
+               backup_directory
+         
+        - name: Ansible check backup2 file exists.
+          stat:
+               path: /home/ubuntu/Backup/bakup2.war
+          register: b2status
+
+        - name: remove backup2 file
+          command: "{{ item }}"
+          with_items: 
+           - rm /home/ubuntu/Backup/backup2.war
+           - mv /home/ubuntu/Backup/backup1.war /home/ubuntu/Backup/backup2.war
+          when: b2status.stat.exists
+
+        - name: Ansible check backup1 file exists
+          stat:
+               path: /home/ubuntu/Backup/backup1.war
+          register: b1status
+
+        - name: remove backup1 file
+          command: "{{ item }}"
+          with_items: 
+           - mv /home/ubuntu/Backup/backup1.war /home/ubuntu/Backup/backup2.war
+          when: b1status.stat.exists
+        
+        - name: check the deployed application
+          stat:
+              path: /var/lib/tomcat8/webapps/SpringMVCSecurityXML.war
+          register: appstatus
+  
+        - name: backup the file
+          copy:
+            src: /var/lib/tomcat8/webapps/SpringMVCSecurityXML.war
+            dest: /home/ubuntu/Backup/backup1.war 
+            remote_src: yes  
+          when: appstatus.stat.exists
+       
+
+        - name: depoy new file
+          copy:
+             src: /var/lib/tomcat8/webapps/SpringMVCSecurityXML.war
+             dest: /var/lib/tomcat8/webapps/SpringMVCSecurityXML.war
+
+      
+
