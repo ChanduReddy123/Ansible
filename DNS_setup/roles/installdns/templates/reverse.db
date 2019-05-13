@@ -1,0 +1,14 @@
+$TTL 86400
+@   IN  SOA     dns.swat.in. root.swat.in. (
+2014112511  ;Serial
+3600        ;Refresh
+1800        ;Retry
+604800      ;Expire
+86400       ;Minimum TTL
+)
+;Name Server Information
+@ IN  NS      dns.swat.in.
+;Reverse lookup for Name Server
+157        IN  PTR     dns.swat.in.
+;PTR Record IP address to HostName
+245      IN  PTR     nexus.swat.in.

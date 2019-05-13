@@ -1,0 +1,31 @@
+- name: Install BindDns and BindUtils
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - bind
+    - bind-utils
+  tag: Bind
+  notify: 
+    - "restart named service"
+  register: install_status
+
+- name: change /etc/named.conf file
+  template: src=named.conf dest=/etc/named.conf
+  notify:
+    - "restart named service"
+
+- name: create the forward and reverse config files
+  template: src={{item}} dest=/var/named/{{item}}
+  with_items:
+    - forward.db
+    - reverse.db
+  notify:
+    - "restart named service"
+
+- name: Update the resolve.conf
+  template: src=resolv.conf dest=/etc/resolv.conf
+
+
+
+    

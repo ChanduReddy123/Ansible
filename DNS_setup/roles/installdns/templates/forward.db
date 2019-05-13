@@ -1,0 +1,20 @@
+$TTL 86400
+@   IN  SOA     dns.swat.in.  root.swat.in. (
+2014112511  ;Serial
+3600        ;Refresh
+1800        ;Retry
+604800      ;Expire
+86400       ;Minimum TTL
+)
+;Name Server Information
+@      IN  NS      dns.swat.in.
+;IP address of Name Server
+dns IN  A      10.211.0.157
+;Mail exchanger
+swat.in. IN  MX 10   mail.swat.in.
+;A - Record HostName To Ip Address
+nexus     IN  A     10.211.0.245
+nui   IN  A     10.211.0.157
+nexusrepo IN  A     10.211.0.157
+jenkins IN A 10.211.0.157
+kube IN A 10.211.0.157
