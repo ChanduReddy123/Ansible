@@ -1,4 +1,15 @@
 - hosts: dns
+  gather_facts: no
+  roles:
+    - role: installdns
+      tags: "DNS" 
+  
+- hosts: elasticsearch
   become: yes
   roles:
-        - installdns
+    - role: installelastic
+      tags: "Elastic"
+    - role: kibana
+      tags: "kibana"
+    - role: FB_MB
+      tags: "FB_MB"

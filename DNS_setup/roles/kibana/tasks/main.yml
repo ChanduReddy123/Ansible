@@ -1,0 +1,19 @@
+- name: Kibana
+  package:
+    name: kibana
+    state: present
+  notify:
+    - "Restart kibana"
+  tag: install_kibana
+
+- name: Replace config
+  template: src=kibana.yml dest=/etc/kibana/kibana.yml
+  notify:
+    - "Restart kibana"
+    
+- name: enable the Kibana to load on boot
+  systemd:
+    name: kibana
+    enabled: yes
+
+

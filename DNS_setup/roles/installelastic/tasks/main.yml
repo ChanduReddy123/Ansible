@@ -1,0 +1,53 @@
+- name: Installing java
+  package:
+    name: java
+    state: present
+  tag: install_java
+
+- name: Adding Elastic search GPG key to yum package
+  rpm_key:
+      state: present
+      key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+  tag: add_gpg
+  when: ansible_pkg_mgr == "yum"
+
+- name: Adding Elastic search GPG key to apt package
+  apt_key:
+      state: present
+      key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+  when: ansible_pkg_mgr == "apt"
+  tag: apt_addkey
+
+- name: creating the repo file for yum pkg manager
+  template: src=elasticsearch.repo dest=/etc/yum.repos.d/elasticsearch.repo
+  when: ansible_pkg_mgr == "yum"
+
+- name: adding the package to sourcelist.d for apt
+  template: src=elastic-6.x.list dest=/etc/apt/sources.list.d/elastic-6.x.list
+  when: ansible_pkg_mgr == "apt"
+  tag: add_source_apt
+
+- name: update the repo list for apt (apt update)
+  apt_repository:
+      update_cache: yes
+  when: ansible_pkg_mgr == "apt"
+  tag: apt_update
+
+- name: Install elastic search 
+  package:
+    name: elasticsearch
+    state: present
+  tag: install_elasticsearch
+  notify:
+    - "restart elasticsearch"
+
+- name: Configuration
+  template: src=elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml
+  notify:
+    - "restart elasticsearch"
+  tag: elastic_config
+
+- name: enable the elasticsearch to load on boot
+  systemd:
+    name: elasticsearch
+    enabled: yes

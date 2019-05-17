@@ -1,0 +1,21 @@
+- name: install file beats
+  package:
+    name: filebeat 
+    state: present
+  notify:
+      - "restart filebeat"
+- name: install metric beats
+  package: 
+    name: metricbeat
+    state: present
+  notify:
+      - "restart metricbeat"
+- name: enable the filebeat and metricbeat to load on boot
+  systemd:
+    name: "{{item}}"
+    enabled: yes
+  with_items:
+    - filebeat
+    - metricbeat
+
+  
